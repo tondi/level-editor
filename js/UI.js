@@ -36,8 +36,6 @@
     }
 
 
-    
-
 	(function createSelect (size) {
 		for(let i = 1; i <= size; i++){
 			//console.log(option_)
@@ -86,6 +84,9 @@
 	var prevHoveredX;
 	var prevHoveredY;
 
+	//var prevClickedX;
+	//var prevClickedY;
+
 	
 	function clicked(e) {
 		var curr = e.target || e.srcElement;
@@ -109,26 +110,50 @@
 		}
 	}
 
+	function single(e) {
+	    var curr = e.target || e.srcElement;
+	    var xObj = curr.id.slice(1, 3)
+	    var yObj = curr.id.slice(3, 5)
+
+	    map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value); // send only x, always square
+
+	    if (prevClickedX !== xObj || prevClickedY !== yObj) {
+	        //console.log(xObj, yObj)
+	        map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value); // send only x, always square
+
+	        prevClickedX = xObj;
+	        prevClickedY = yObj;
+	    }
+
+	    table.removeEventListener("mousemove", clicked);
+	    
+	}
 
 	var tableListeners = (tableSize) => {
         // Pojedyncze kliknięcie
-        table.addEventListener("click", (e) => {
-            //console.log("click")
-            var curr = e.target || e.srcElement;
-            var xObj = curr.id.slice(1, 3)
-            var yObj = curr.id.slice(3, 5)
-
-            map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value); // send only x, always square
-        })
+        
 
         // Performance: adds move listener only when actually clicked
 		table.addEventListener("mousedown", (e) => {
-			//console.log("down")
+		    //console.log("down")
+		    //table.addEventListener("click", single(e))
+		    var curr = e.target || e.srcElement;
+		    var xObj = curr.id.slice(1, 3)
+		    var yObj = curr.id.slice(3, 5)
+
+		    map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value); // send only x, always square
+
+		    prevHoveredX = xObj;
+		    prevHoveredY = yObj;
+
 			table.addEventListener("mousemove", clicked)
 		})
 		table.addEventListener("mouseup", (e) => {
 		    //console.log("up", e)
+		    //table.removeEventListener("click", single(e))
 		    table.removeEventListener("mousemove", clicked);
+
+
 		})
 		//console.log(prevHovered)
 	}
