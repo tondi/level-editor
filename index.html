@@ -1,0 +1,162 @@
+﻿<!doctype HTML>
+<html>
+<head>
+    <title>Level editor</title>
+    <script src="js/UI.js"></script>
+    <script src="js/Map.js"></script>
+    <!--<script src="js/main.js"></script>-->
+    <!--<script src="js/move.js"></script>-->
+    <script>
+        var ui;
+        var map;
+        window.onload = function () {
+
+            ui = new Ui();
+            map = new Map();
+            //console.log(typeof map)
+
+            
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Lato, Roboto;
+        }
+        #container{
+            display: flex;
+            height: 100vh;
+            
+        }
+        
+        #container__div__table{
+            
+            margin-left: 5vw;
+            align-self: center;
+            width: 30vw;
+            height: 30vw;
+            
+            border-spacing: 0;
+            border-collapse: separate;
+
+        }
+        #container__center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /*margin: 5%;*/
+            
+        }
+        #container__center > * {
+            /*display: block;*/
+            /*margin: auto;*/
+            margin: 0.5em;
+        }
+        #container__json{
+            flex: 3;
+            background: black;
+            color: white;
+            
+            
+        }
+        #container__json h1{
+            text-align: center;
+        }
+        #container__json__code{
+            padding-left: 50px;
+            background: black;
+            color: white;
+            width: 93%;
+            height: 86%;
+            overflow-y: scroll;
+            border: 0;
+            
+
+        }
+        .container__div__table__cell{
+            cursor: pointer; 
+            /*border: 1px solid black;*/
+            box-shadow: 0px 0px 1px black;
+        }
+        
+
+        
+        .wall{
+            user-select: none;
+
+
+            background: gray;
+            box-shadow: 1px 1px 1px black;
+        }
+        .enemy{
+            user-select: none;
+            background: darkRed;
+            box-shadow: 1px 1px 1px darkRed;
+        }
+        input[type=button]{
+            /*background: white;*/
+			color: white;
+            border: none;
+            border-radius: 2px 3px;
+            padding: 0.5em;
+            /*height: 2em;*/
+            cursor: pointer;
+            /*margin-bottom:;*/
+        }
+
+        #json__header{
+            display: flex;
+            justify-content: center;
+
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+        }
+        #json__header > *{
+            margin: 5%;
+        }
+
+       .activeTypeBt {
+            box-shadow: 1px 1px 10px;
+       }
+       #wallBt{
+           background: gray;
+       }
+       #enemyBt{
+           background: darkRed;
+       }
+        
+    </style>
+</head>
+<body>
+    <div id="container">
+        <table id="container__div__table" ></table>
+        <div id="container__center">
+            <!--<input id="container__center__input" type="text"/>-->
+            <select id="container__center__select">
+
+            </select>
+
+            <input id="wallBt" type="button" value="wall" class="selectBt"/>
+            <input id="enemyBt" type="button" value="enemy" class="selectBt"/>
+        </div>
+        <div id="container__json">
+            <div id="json__header">
+                <div>Copy JSON or </div>
+                <input id="load" type="button" value="paste and load" />
+            </div>
+            
+            
+            <!--<pre id="container__json__code">-->
+                <textarea id="container__json__code">
+            </textarea>
+            <!--</pre>-->
+        </div>
+
+    </div>
+    
+
+</body>
+</html>
