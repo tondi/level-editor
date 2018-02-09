@@ -22,6 +22,7 @@
         //console.log(this.area.level)
         //this.area.level.push("abc")
         this.area.level.push(blockInfo)
+        this.area.level = this.area.level.filter((el)=>el.type!='delete');
         var jsonMap = JSON.stringify(this.area, null, '\t')
 
         ui.appendJSON(jsonMap)
@@ -32,7 +33,18 @@
 
         id++;
 
-        //console.log(this.area)
+        console.log(this.area)
+    }
+
+    this.removeBlock = (x, z) => {
+        
+        console.log('remove block', this.area.level, 'x:', x, 'z:', z)
+        this.area.level = this.area.level.filter(el => !(el.x == x && el.z == z));
+        var jsonMap = JSON.stringify(this.area, null, '\t')
+        
+        ui.appendJSON(jsonMap)
+        ui.highlightArea(jsonMap)
+        console.log(this.area.level);
     }
 
 }
