@@ -1,8 +1,9 @@
 ﻿function Ui() {
-    var select = document.getElementById("container__center__select");
-    this.code = document.getElementById("container__json__code");
-    var load = document.getElementById("load");
     this.tableSize = 18; // Niepotrzebnie (?) osobne x, y => always square
+    this.code = document.getElementById("container__json__code");
+    
+    var select = document.getElementById("container__center__select");
+    var load = document.getElementById("load");
     var tableCont = document.getElementById("container__div")
     var table = document.getElementById("container__div__table");
     var buttons = document.getElementsByClassName("selectBt");
@@ -102,8 +103,13 @@
 			
 
 		if(prevHoveredX !== xObj || prevHoveredY !== yObj){
-			//console.log(xObj, yObj)
-			map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value ); // send only x, always square
+			console.log(xObj, yObj, activeTypeBt.value);
+			// map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value ); // send only x, always square
+            if(activeTypeBt.value == 'delete') {
+                map.removeBlock(xObj, yObj);
+            } else {
+                map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value ); // send only x, always square
+            }
 
 			prevHoveredX = xObj;
 			prevHoveredY = yObj;
@@ -115,11 +121,21 @@
 	    var xObj = curr.id.slice(1, 3)
 	    var yObj = curr.id.slice(3, 5)
 
-	    map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value); // send only x, always square
+	    // map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value); // send only x, always square
+        if(activeTypeBt.value == 'delete') {
+            map.removeBlock(xObj, yObj);
+        } else {
+            map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value ); // send only x, always square
+        }
 
 	    if (prevClickedX !== xObj || prevClickedY !== yObj) {
 	        //console.log(xObj, yObj)
-	        map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value); // send only x, always square
+            if(activeTypeBt.value == 'delete') {
+                map.removeBlock(xObj, yObj);
+            } else {
+                map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value ); // send only x, always square
+            }
+            // map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value); // send only x, always square
 
 	        prevClickedX = xObj;
 	        prevClickedY = yObj;
@@ -141,7 +157,12 @@
 		    var xObj = curr.id.slice(1, 3)
 		    var yObj = curr.id.slice(3, 5)
 
-		    map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value); // send only x, always square
+            if(activeTypeBt.value == 'delete') {
+                map.removeBlock(xObj, yObj);
+            } else {
+                map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value ); // send only x, always square
+            }
+		    // map.createJSON(ui.tableSize, xObj, yObj, activeTypeBt.value); // send only x, always square
 
 		    prevHoveredX = xObj;
 		    prevHoveredY = yObj;
@@ -185,20 +206,20 @@
     }
 
     this.highlightArea = (json) => {
-        console.log("Highlight")
-
+        
         let finish = JSON.parse(json)
         let toHighlight = [];
         for(let value of finish.level) {
             let xy = {y: value.x, x:value.z, type:value.type}
             toHighlight.push(xy)
         }
+        console.log("toHighlight", toHighlight)
         
         for (let x = 0; x < this.tableSize; x++) {
             for (let y = 0; y < this.tableSize; y++) {
+                table.childNodes[x].childNodes[y].className = 'container__div__table__cell'
                 for(let value of toHighlight){
                     if (value.x == x && value.y == y) {
-                        
                         table.childNodes[x].childNodes[y].className = value.type
                         
                     }
